@@ -17,7 +17,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li *ngIf="authService.loggedIn()"><a [routerLink]="['dashboard']"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-        <li *ngIf="authService.loggedIn()"><a><i class="fa fa-bitcoin"></i> Brand</a></li>
+        <li *ngIf="authService.loggedIn()"><a [routerLink]="['brand']"><i class="fa fa-bitcoin"></i> Brand</a></li>
         <li *ngIf="authService.loggedIn()"><a><i class="fa fa-th-list" aria-hidden="true"></i> Category</a></li>
         <li *ngIf="authService.loggedIn()"><a><i class="fa fa-list-alt" aria-hidden="true"></i> Products</a></li>
         <li *ngIf="authService.loggedIn()"><a><i class="fa fa-shopping-cart" aria-hidden="true"></i> Orders</a></li>

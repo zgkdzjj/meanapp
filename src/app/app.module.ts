@@ -16,6 +16,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ValidateService } from "./services/validate.service";
 import { AuthService } from "./services/auth.service";
 import {AuthGuardService} from "./services/auth-guard.service";
+import { BrandComponent } from './components/brand/brand.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,7 +24,8 @@ const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent},
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
-  { path: 'profile', component: ProfileComponent , canActivate: [AuthGuardService]}
+  { path: 'profile', component: ProfileComponent , canActivate: [AuthGuardService]},
+  { path: 'brand', component: BrandComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({
@@ -34,7 +36,8 @@ const appRoutes: Routes = [
     HomeComponent,
     LoginComponent,
     ProfileComponent,
-    RegisterComponent
+    RegisterComponent,
+    BrandComponent
   ],
   imports: [
     BrowserModule,
