@@ -30,11 +30,15 @@ import { MatSnackBarModule } from '@angular/material';
 
 
 import {DataTableModule,SharedModule, DropdownModule} from 'primeng/primeng';
-import {DialogModule, ButtonModule, InputTextModule,PanelModule, ConfirmDialogModule,ConfirmationService} from 'primeng/primeng';
+import {DialogModule, ButtonModule, InputTextModule,PanelModule, ConfirmDialogModule,ConfirmationService,
+GrowlModule, MessageModule, MessagesModule, BreadcrumbModule, MenuItem} from 'primeng/primeng';
 
 import {MatDialogModule} from "@angular/material";
 import { AddBrandDialogComponent } from './components/dialogs/add-brand-dialog/add-brand-dialog.component';
 import {BrandService} from "./services/brand.service";
+import { CategoryComponent } from './components/category/category.component';
+import {CategoryService} from "./services/category.service";
+import { ProductComponent } from './components/product/product.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -43,7 +47,8 @@ const appRoutes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService]},
-  {path: 'brand', component: BrandComponent, canActivate: [AuthGuardService]}
+  {path: 'brand', component: BrandComponent, canActivate: [AuthGuardService]},
+  {path: 'category', component: CategoryComponent, canActivate: [AuthGuardService]}
 ];
 
 @NgModule({
@@ -56,7 +61,9 @@ const appRoutes: Routes = [
     ProfileComponent,
     RegisterComponent,
     BrandComponent,
-    AddBrandDialogComponent
+    AddBrandDialogComponent,
+    CategoryComponent,
+    ProductComponent
   ],
 
 
@@ -79,7 +86,13 @@ const appRoutes: Routes = [
     DialogModule,
     ButtonModule,
     InputTextModule,
-    PanelModule
+    PanelModule,
+    ConfirmDialogModule,
+    GrowlModule,
+    MessageModule,
+    MessagesModule,
+    BreadcrumbModule,
+
   ],
   entryComponents: [
     AddBrandDialogComponent
@@ -88,7 +101,9 @@ const appRoutes: Routes = [
     ValidateService,
     AuthService,
     AuthGuardService,
-    BrandService
+    BrandService,
+    ConfirmationService,
+    CategoryService
   ],
   bootstrap: [AppComponent]
 })
