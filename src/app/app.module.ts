@@ -31,7 +31,7 @@ import { MatSnackBarModule } from '@angular/material';
 
 import {DataTableModule,SharedModule, DropdownModule} from 'primeng/primeng';
 import {DialogModule, ButtonModule, InputTextModule,PanelModule, ConfirmDialogModule,ConfirmationService,
-GrowlModule, MessageModule, MessagesModule, BreadcrumbModule, MenuItem} from 'primeng/primeng';
+GrowlModule, MessageModule, MessagesModule, BreadcrumbModule, MenuItem, FileUploadModule} from 'primeng/primeng';
 
 import {MatDialogModule} from "@angular/material";
 import { AddBrandDialogComponent } from './components/dialogs/add-brand-dialog/add-brand-dialog.component';
@@ -39,6 +39,7 @@ import {BrandService} from "./services/brand.service";
 import { CategoryComponent } from './components/category/category.component';
 import {CategoryService} from "./services/category.service";
 import { ProductComponent } from './components/product/product.component';
+import {ProductService} from "./services/product.service";
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -93,6 +94,7 @@ const appRoutes: Routes = [
     MessageModule,
     MessagesModule,
     BreadcrumbModule,
+    FileUploadModule
 
   ],
   entryComponents: [
@@ -104,7 +106,8 @@ const appRoutes: Routes = [
     AuthGuardService,
     BrandService,
     ConfirmationService,
-    CategoryService
+    CategoryService,
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
