@@ -29,9 +29,9 @@ import { MatTooltipModule } from '@angular/material';
 import { MatSnackBarModule } from '@angular/material';
 
 
-import {DataTableModule,SharedModule, DropdownModule} from 'primeng/primeng';
+import {DataTableModule, SharedModule, DropdownModule, CalendarModule} from 'primeng/primeng';
 import {DialogModule, ButtonModule, InputTextModule,PanelModule, ConfirmDialogModule,ConfirmationService,
-GrowlModule, MessageModule, MessagesModule, BreadcrumbModule, MenuItem, FileUploadModule} from 'primeng/primeng';
+GrowlModule, MessageModule, MessagesModule, BreadcrumbModule, MenuItem, FileUploadModule, OverlayPanelModule, Header, Footer} from 'primeng/primeng';
 
 import {MatDialogModule} from "@angular/material";
 import { AddBrandDialogComponent } from './components/dialogs/add-brand-dialog/add-brand-dialog.component';
@@ -40,6 +40,9 @@ import { CategoryComponent } from './components/category/category.component';
 import {CategoryService} from "./services/category.service";
 import { ProductComponent } from './components/product/product.component';
 import {ProductService} from "./services/product.service";
+import { OrderComponent } from './components/order/order.component';
+import {OrderService} from "./services/order.service";
+import { ManageorderComponent } from './components/manageorder/manageorder.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -50,7 +53,10 @@ const appRoutes: Routes = [
   {path: 'profile', component: ProfileComponent, canActivate: [AuthGuardService]},
   {path: 'brand', component: BrandComponent, canActivate: [AuthGuardService]},
   {path: 'category', component: CategoryComponent, canActivate: [AuthGuardService]},
-  {path: 'product', component: ProductComponent, canActivate: [AuthGuardService]}
+  {path: 'product', component: ProductComponent, canActivate: [AuthGuardService]},
+  {path: 'order', component: OrderComponent, canActivate: [AuthGuardService]},
+  {path: 'manageorder', component: ManageorderComponent, canActivate: [AuthGuardService]}
+
 ];
 
 @NgModule({
@@ -65,7 +71,9 @@ const appRoutes: Routes = [
     BrandComponent,
     AddBrandDialogComponent,
     CategoryComponent,
-    ProductComponent
+    ProductComponent,
+    OrderComponent,
+    ManageorderComponent
   ],
 
 
@@ -94,7 +102,9 @@ const appRoutes: Routes = [
     MessageModule,
     MessagesModule,
     BreadcrumbModule,
-    FileUploadModule
+    FileUploadModule,
+    OverlayPanelModule,
+    CalendarModule
 
   ],
   entryComponents: [
@@ -107,7 +117,8 @@ const appRoutes: Routes = [
     BrandService,
     ConfirmationService,
     CategoryService,
-    ProductService
+    ProductService,
+    OrderService
   ],
   bootstrap: [AppComponent]
 })

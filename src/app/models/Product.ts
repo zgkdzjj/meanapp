@@ -1,4 +1,5 @@
 export interface IProduct {
+  _id?: string;
   prodImgName?: string;
   prodName?: string;
   prodQuantity?: number;
@@ -6,4 +7,6 @@ export interface IProduct {
   prodBrand?: string;
   prodCat?: string;
   prodStatus?: string;
+  prodImg?: Object;
+  prodSpecs?: string;
 }
