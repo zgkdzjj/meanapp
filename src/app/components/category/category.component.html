@@ -1,0 +1,63 @@
+<p-growl [value]="msgDia"></p-growl>
+<p-breadcrumb [model]="items"></p-breadcrumb>
+<br>
+<br>
+
+<p-panel>
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Manage Category</span>
+      <button pButton label="Add Category" icon="fa-plus" style="float: right;" (click)="displayDialog()"></button>
+    </div>
+  </p-header>
+  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+  </div>
+
+  <p-dataTable [globalFilter]="gb" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [value]="categories" selectionMode ="single" [(selection)]="selectedBrand" (onRowDblclick)="onRowDblclick($event)">
+    <p-column field="catName" header="Name" [editable]="false"></p-column>
+    <p-column field="catStatus" header="Status" [editable]="false"></p-column>
+    <p-column>
+      <ng-template pTemplate="header">
+        Edit
+      </ng-template>
+      <ng-template let-row="rowData" pTemplate="body">
+        <button type="button" pButton icon="fa-edit" (click)="onEditClick(row)"></button>
+        <button type="button" pButton icon="fa-remove" (click)="onRemoveClick(row)"></button>
+      </ng-template>
+    </p-column>
+
+
+  </p-dataTable>
+  <p-footer>
+    <button pButton label="Add Category" icon="fa-plus" (click)="displayDialog()"></button>
+  </p-footer>
+</p-panel>
+
+
+
+
+<p-dialog header="Category Details" [(visible)]="display" showEffect="fade" [modal]="true" [dismissableMask]="true" [width]="500">
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-4"><label for="catName">Name ： </label></div>
+    <div class="ui-grid-col-8"><input pInputText id="catName" [(ngModel)]="cat.catName"/>
+      <p-message hidden severity="error" text="Field is required"></p-message>
+    </div>
+  </div>
+  <div class="ui-grid-row">
+    <div class="ui-grid-col-4"><label for="catStatus">Status ： </label></div>
+    <div class="ui-grid-col-8" >
+
+      <p-dropdown  appendTo="body" id="catStatus" [(ngModel)]="cat.catStatus" [options]="status" placeholder="Select Status" [style]="{'width': '156px'}"></p-dropdown>
+
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+    <button type="button" pButton icon="fa-close" (click)="display=false" label="Close"></button>
+  </p-footer>
+</p-dialog>
+
+
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>

@@ -1,0 +1,151 @@
+<p-breadcrumb [model]="items"></p-breadcrumb>
+<br>
+<br>
+
+<p-panel>
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Manage Order</span>
+      <button pButton label="Add Order" icon="fa-plus" style="float: right;" (click)="displayDialog()"></button>
+    </div>
+  </p-header>
+  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+  </div>
+
+  <p-dataTable [globalFilter]="gb" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [value]="orders"
+               selectionMode="single" [(selection)]="selectedOrder" (onRowDblclick)="onRowDblclick($event)">
+
+
+    <p-column field="orderNb" header="Order Number" [editable]="false"></p-column>
+    <p-column field="orderDate" header="Order Date" [editable]="false"></p-column>
+    <p-column field="clientName" header="Client Name" [editable]="false"></p-column>
+    <p-column field="contactNb" header="Contact Number" [editable]="false"></p-column>
+    <p-column field="paymentStatus" header="Payment Status" [editable]="false"></p-column>
+    <p-column field="orderStatus" header="Order Status" [editable]="false"></p-column>
+    <p-column field="trackNb" header="Tracking NB." [editable]="false"></p-column>
+
+
+    <p-column>
+      <ng-template pTemplate="header">
+        Edit
+      </ng-template>
+      <ng-template let-row="rowData" pTemplate="body">
+        <button type="button" pButton icon="fa-edit" (click)="onEditClick(row)"></button>
+        <button type="button" pButton icon="fa-remove" (click)="onRemoveClick(row)"></button>
+      </ng-template>
+    </p-column>
+
+
+  </p-dataTable>
+  <p-footer>
+    <button pButton label="Add Order" icon="fa-plus" (click)="displayAddOrderDialog()"></button>
+  </p-footer>
+</p-panel>
+
+
+<p-dialog header="Order Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true"
+          [width]="600" *ngIf="order">
+
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-3"><label>Order Number ： </label></div>
+      <div class="ui-grid-col-3">{{order.orderNb}}</div>
+      <div class="ui-grid-col-3"><label>Order Date ： </label></div>
+      <!--
+            <div class="ui-grid-col-3"><input pInputText id="orderDate" [(ngModel)]="order.orderDate"/></div>
+      -->
+      <div class="ui-grid-col-3">{{order.orderDate}}</div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-3"><label for="clientName">Client Name： </label></div>
+      <div class="ui-grid-col-3"><input pInputText id="clientName" [(ngModel)]="order.clientName"/></div>
+      <div class="ui-grid-col-3"><label for="contactNb">Contact Number ： </label></div>
+      <div class="ui-grid-col-3"><input pInputText id="contactNb" [(ngModel)]="order.contactNb"/></div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-3"><label for="address">Shipment Address ： </label></div>
+      <div class="ui-grid-col-9"><input pInputText id="address" [(ngModel)]="order.address"/></div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-3"><label for="orderStatus">Order Status ： </label></div>
+      <div class="ui-grid-col-3">
+        <!--
+                <input pInputText id="orderStatus" [(ngModel)]="order.orderStatus"/>
+        -->
+        <p-dropdown appendTo="body" [options]="orderStatus" id="orderStatus" [(ngModel)]="order.orderStatus"
+                    placeholder="---- Select ----" [autoWidth]="false"></p-dropdown>
+      </div>
+      <div class="ui-grid-col-3"><label for="trackingNb">Tracking NB. ： </label></div>
+      <div class="ui-grid-col-3"><input pInputText id="trackingNb" [(ngModel)]="order.trackNb"/></div>
+    </div>
+  </div>
+
+  <br>
+
+  <!--Brife order products list-->
+  <p-dataTable [value]="order.products" [editable]="true" (onEdit)="onEditQuantity($event)" [(selection)]="selectedProd" >
+    <p-column field="name" header="Item" [editable]="true">
+      <ng-template let-col let-prod="rowData" pTemplate="editor">
+        <p-dropdown appendTo="body" [(ngModel)]="prod[col.field]" [options]="prodSelection" [autoWidth]="false" [style]="{'width':'100%'}"
+                    required="true" appendTo="body" (onChange)="onChange($event,prod)"></p-dropdown>
+      </ng-template>
+
+    </p-column>
+
+    <p-column field="rate" header="Rate"></p-column>
+
+    <p-column field="quantity" header="Quantity" [editable]="true"></p-column>
+    <p-column field="total" header="Total"></p-column>
+
+    <p-column>
+      <ng-template pTemplate="header">
+        Edit
+      </ng-template>
+      <ng-template let-row="rowData" let-i="rowIndex" pTemplate="body">
+        <button type="button" pButton icon="fa-remove" (click)="onRemoveClick(row, i)"></button>
+      </ng-template>
+    </p-column>
+
+  </p-dataTable>
+
+
+  <br>
+
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6"></div>
+      <div class="ui-grid-col-3"><label>Sub Total ： </label></div>
+      <div class="ui-grid-col-3">{{order.subAmount}}</div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6"></div>
+      <div class="ui-grid-col-3"><label>Profit ： </label></div>
+      <div class="ui-grid-col-3">{{order.profit}}</div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6"></div>
+      <div class="ui-grid-col-3"><label>Discount ： </label></div>
+      <div class="ui-grid-col-3">{{order.discount}}</div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-6"></div>
+      <div class="ui-grid-col-3"><label>Total ： </label></div>
+      <div class="ui-grid-col-3">{{order.grandTotal}}</div>
+    </div>
+  </div>
+
+
+  <p-footer>
+    <button pButton type="button" icon="fa-plus" label="Add Item" class="ui-button-info" [style]="{'float':'left'}"
+            (click)="addItem()"></button>
+
+    <button pButton type="button" icon="fa-plus" label="Update" class="ui-button-info" (click)="updateOrder()"></button>
+    <button pButton type="button" icon="fa-list" label="Cancel" class="ui-button-success"></button>
+  </p-footer>
+
+</p-dialog>

@@ -1,0 +1,148 @@
+<p-growl [value]="msg" [life]="3000"></p-growl>
+
+<p-breadcrumb [model]="items"></p-breadcrumb>
+<br>
+<br>
+
+<!--
+<p-messages [(value)]="imgMsg" ></p-messages>
+-->
+<p-panel>
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <span class="ui-panel-title" style="font-size:16px;display:inline-block;margin-top:2px">Manage Product</span>
+      <button pButton label="Add Product" icon="fa-plus" style="float: right;" (click)="displayDialog()"></button>
+    </div>
+  </p-header>
+  <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+    <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
+    <input #gb type="text" pInputText size="50" placeholder="Global Filter">
+  </div>
+
+  <p-dataTable [globalFilter]="gb" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5,10,20]" [value]="products"
+               selectionMode="single" [(selection)]="selectedBrand" (onRowDblclick)="onRowDblclick($event)">
+
+    <p-column [style]="{'width':'10%','text-align':'center'}" header="Image" [editable]="false">
+      <ng-template let-img="rowData" pTemplate="body">
+
+        <button type="button" pButton (click)="showImg($event,img,op3);" icon="fa-search"></button>
+      </ng-template>
+
+    </p-column>
+
+
+    <p-column field="prodName" header="Name" [editable]="false"></p-column>
+    <p-column field="prodBrand" header="Brand" [editable]="false"></p-column>
+    <p-column field="prodCat" header="Category" [editable]="false"></p-column>
+    <p-column field="prodQuantity" header="Quantity" [editable]="false"></p-column>
+    <p-column field="prodRate" header="Rate" [editable]="false"></p-column>
+    <p-column field="prodSpecs" header="Specs" [editable]="false"></p-column>
+    <p-column field="prodStatus" header="Status" [editable]="false"></p-column>
+
+
+    <p-column>
+      <ng-template pTemplate="header">
+        Edit
+      </ng-template>
+      <ng-template let-row="rowData" pTemplate="body">
+        <button type="button" pButton icon="fa-edit" (click)="onEditClick(row)"></button>
+        <button type="button" pButton icon="fa-remove" (click)="onRemoveClick(row)"></button>
+      </ng-template>
+    </p-column>
+
+
+  </p-dataTable>
+  <p-footer>
+    <button pButton label="Add Product" icon="fa-plus" (click)="displayDialog()"></button>
+  </p-footer>
+</p-panel>
+
+
+<p-dialog header="Product Details" [(visible)]="display" showEffect="fade" [modal]="true" [dismissableMask]="true"
+          [width]="500">
+
+  <div class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="avatar">Image(optional) ： </label></div>
+      <div class="ui-grid-col-8">
+        <div>
+        <p-fileUpload #fileInput url="http://localhost:3000/products/" [showUploadButton]="false" id="avatar"
+                      [showCancelButton]="false" name="avatar" accept="image/*" maxFileSize="1000000"
+                      (onSelect)="onSelect($event)" type="file" value="null" ></p-fileUpload>
+        </div>
+      </div>
+    </div>
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="prodName">Name ： </label></div>
+      <div class="ui-grid-col-8"><input pInputText id="prodName" [(ngModel)]="prod.prodName"/></div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="prodBrand">Brand ： </label></div>
+      <div class="ui-grid-col-8">
+        <!--
+              <input pInputText id="prodBrand" [(ngModel)]="prod.prodBrand"/>
+        -->
+        <p-dropdown appendTo="body" id="prodBrand" [(ngModel)]="prod.prodBrand" [filter]="true" [options]="avblBrands"
+                    placeholder="Select Brand" [autoWidth]="false"></p-dropdown>
+      </div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="prodCat">Category ： </label></div>
+      <div class="ui-grid-col-8">
+        <p-dropdown appendTo="body" id="prodCat" [(ngModel)]="prod.prodCat" [filter]="true" [options]="avblCat"
+                    placeholder="Select Category" [autoWidth]="false"></p-dropdown>
+
+      </div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="prodQuantity">Quantity ： </label></div>
+      <div class="ui-grid-col-8">
+        <input pInputText id="prodQuantity" [(ngModel)]="prod.prodQuantity" value="0" type="number" required/>
+      </div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="prodRate">Price ： </label></div>
+      <div class="ui-grid-col-8">
+        <input pInputText id="prodRate" [(ngModel)]="prod.prodRate" value="0" placeholder="Price" type="number"
+               required/>
+      </div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="prodSpecs">Specs ： </label></div>
+      <div class="ui-grid-col-8">
+        <input pInputText id="prodSpecs" [(ngModel)]="prod.prodSpecs" value="0" placeholder="Specs"/>
+      </div>
+    </div>
+
+    <div class="ui-grid-row">
+      <div class="ui-grid-col-4"><label for="prodStatus">Status ： </label></div>
+      <div class="ui-grid-col-8">
+        <p-dropdown appendTo="body" id="prodStatus" [(ngModel)]="prod.prodStatus" [options]="status"
+                    placeholder="Select Status" [autoWidth]="false"></p-dropdown>
+      </div>
+    </div>
+    <div class="ui-grid-row">
+      <p-message severity="error" text="Please fill all fields" *ngIf="formValidation" life="1000"></p-message>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="fa-check" (click)="save()" label="Save"></button>
+    <button type="button" pButton icon="fa-close" (click)="display=false" label="Close"></button>
+  </p-footer>
+</p-dialog>
+
+<!--Confirmation Dialog-->
+<p-confirmDialog header="Confirmation" icon="fa fa-question-circle" width="425"></p-confirmDialog>
+
+
+<!--Show product image if selected-->
+<p-overlayPanel #op3>
+
+  <img [src]="imgSrc" *ngIf="displayImg"/>
+
+</p-overlayPanel>

@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Add Brand</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="Brand">
+  </mat-form-field>
+
+
+  <mat-form-field>
+    <mat-select placeholder="Status">
+      <mat-option *ngFor="let one of status" [value]="one.value">{{ one.viewValue }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-fab color="primary" [mat-dialog-close]="true" tabindex="1">Save</button>
+  <button mat-fab color="accent" mat-dialog-close tabindex="-1">Close</button>
+</mat-dialog-actions>
